@@ -1,5 +1,3 @@
-//configuração de acesso ao banco
-//arquivo criado pelo sequeliza
 {
   "development": {
     "username": "aluno",
