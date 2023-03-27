@@ -24,13 +24,9 @@ module.exports = {
       password:{
         type: Sequelize.STRING,
         allowNull: false
-      },
-      creted_at:{
-        type: Sequelize.DATETIME
-      },
-      updated_at:{
-        type: Sequelize.DATETIME
-      }
+      }, 
+      created_at: Sequelize.DATE,
+      updated_at: Sequelize.DATE
     });
   },
 

@@ -20,8 +20,8 @@ module.exports = {
                 DEFAULT,
                 '${username}',
                 '${password}',
-                NOW(),
-                NOW()
+                now(),
+                now()               
             );
         `)
         if(affectedRows > 0) {
