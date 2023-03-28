@@ -11,8 +11,6 @@ const Subcategoria = database.define('subcategoria',{
         type: Sequelize.STRING(30),
         allowNull: false
       }
-},{
-    timestamps:true
 });
 
 module.exports = Subcategoria;

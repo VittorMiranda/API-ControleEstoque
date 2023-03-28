@@ -14,8 +14,6 @@ const Tipo_pagamento = database.define('tipo_pagamento',{
       status:{
         type: Sequelize.STRING(30)
       }
-},{
-    timestamps:true
 });
 
 module.exports = Users;

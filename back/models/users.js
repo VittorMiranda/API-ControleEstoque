@@ -14,9 +14,13 @@ const Users = database.define('users',{
       password:{
         type: Sequelize.STRING,
         allowNull: false
+      },
+      created_at:{
+        type: Sequelize.DATE
+      },
+      updated_at:{
+        type: Sequelize.DATE
       }
-},{
-    timestamps:true
 });
 
 module.exports = Users;

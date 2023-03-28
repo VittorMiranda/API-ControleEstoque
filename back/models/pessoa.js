@@ -31,9 +31,13 @@ const Pessoa = database.define('pessoa',{
       },
       uf:{
         type: Sequelize.STRING(2)   
+      },
+      created_at:{
+        type: Sequelize.DATE
+      },
+      updated_at:{
+        type: Sequelize.DATE
       }   
-},{
-    timestamps:true
 });
 
 module.exports = Pessoa;

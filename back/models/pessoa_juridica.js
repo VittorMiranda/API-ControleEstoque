@@ -26,8 +26,6 @@ const Pessoa_juridica = database.define('pessoa_juridica',{
       inscricao_estadual:{
         type: Sequelize.CHAR(9),
       }
-},{
-    timestamps:true
 });
 
 module.exports = Pessoa_juridica;

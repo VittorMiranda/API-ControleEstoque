@@ -19,8 +19,6 @@ const Compra = database.define('compra',{
       status:{
         type: Sequelize.STRING(45)  
       }
-},{
-    timestamps:true
-});
+    });
 
 module.exports = Compra;

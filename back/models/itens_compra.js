@@ -17,8 +17,6 @@ const Itens_compra = database.define('itens_compra',{
       total_item:{
         type: Sequelize.DECIMAL(9,2),
       }
-},{
-    timestamps:true
 });
 
 module.exports = Itens_compra;

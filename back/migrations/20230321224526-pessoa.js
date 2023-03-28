@@ -39,9 +39,13 @@ module.exports = {
       },
       uf:{
         type: Sequelize.STRING(2)   
-      }  
-},{
-    timestamps:true
+      },
+      created_at:{
+        type: Sequelize.DATE
+      },
+      updated_at:{
+        type: Sequelize.DATE
+      }
 });
   },
 

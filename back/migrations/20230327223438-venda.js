@@ -1,8 +1,15 @@
-const Sequelize = require('sequelize');
-const database = require('../src/database/connection');
+'use strict';
 
-const Venda = database.define('venda',{
-    id:{ 
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     */
+     await queryInterface.createTable('venda', {
+      id:{ 
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true
@@ -31,6 +38,17 @@ const Venda = database.define('venda',{
       updated_at:{
         type: Sequelize.DATE
       }
-});
+     });
+     
+  },
 
-module.exports = Venda;
+  async down (queryInterface, Sequelize) {
+    /**
+     * Add reverting commands here.
+     *
+     * Example:
+     */
+    await queryInterface.dropTable('venda');
+     
+  }
+};

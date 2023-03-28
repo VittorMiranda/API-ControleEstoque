@@ -13,8 +13,6 @@ const Pessoa_tel = database.define('pessoa_tel',{
       telefone:{
         type: Sequelize.STRING(15)
       }
-},{
-    timestamps:true
 });
 
 module.exports = Pessoa_tel;

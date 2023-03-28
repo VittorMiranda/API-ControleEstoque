@@ -13,8 +13,6 @@ const Pessoa_fisica = database.define('pessoa_fisica',{
     genero:{
         type: Sequelize.STRING(10)
       }
-},{
-    timestamps:true
 });
 
 module.exports = Pessoa_fisica;
