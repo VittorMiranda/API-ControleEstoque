@@ -54,9 +54,6 @@ module.exports = {
       porcentagem_lucro:{
         type: Sequelize.FLOAT
       },
-      preco_venda:{
-        type: Sequelize.DECIMAL(9,2)
-      },
       created_at:{
         type: Sequelize.DATE
       },

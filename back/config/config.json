@@ -2,7 +2,7 @@
   "development": {
     "username": "aluno",
     "password": "Senai1234",
-    "database": "vivi_test",
+    "database": "controle_estoque_teste",
     "host": "ESN509VMYSQL",
     "dialect": "mysql"
   },

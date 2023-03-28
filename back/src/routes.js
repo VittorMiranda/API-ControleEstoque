@@ -4,6 +4,7 @@ const router = require('express').Router();
 
 //import controllers
 const UserCeontroller = require('./controllers/UserController')
+const ProdutoController = require('./controllers/ProdutoController')
 //permite que a api fique publica para ser acessada pelas aplicações
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*")
@@ -11,7 +12,8 @@ router.use(function(req, res, next) {
     next();
 })
 //rotas da tabela users
-router.post('/create', UserCeontroller.create);
-router.post('/login', UserCeontroller.login);
+router.post('/Users/create', UserCeontroller.create);
+router.post('/Users/login', UserCeontroller.login);
+router.post('/Produto/create', ProdutoController.create);
 
 module.exports = router;
