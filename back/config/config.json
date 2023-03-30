@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "vitor",
-    "password": "vivi2021",
-    "database": "teste",
-    "host": "127.0.0.1",
+    "username": "aluno",
+    "password": "Senai1234",
+    "database": "controle_estoque_teste",
+    "host": "ESN509VMYSQL",
     "dialect": "mysql"
   },
   "test": {
