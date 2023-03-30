@@ -7,10 +7,14 @@ module.exports = {
       type: Sequelize.INTEGER,
       references:{model:'subcategoria', key: 'id'},
       onDelete:'CASCADE',
-      allowNull: false});
+      allowNull: true});
   },
 
   async down (queryInterface, Sequelize) {
-    queryInterface.removeColumn('produto', 'subcategoria_id');
+    queryInterface.removeColumn('produto', 'subcategoria_id', { 
+      type: Sequelize.INTEGER,
+      references:{model:'subcategoria', key: 'id'},
+      onDelete:'CASCADE',
+      allowNull: true});
   }
 };

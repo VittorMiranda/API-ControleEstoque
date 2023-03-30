@@ -7,16 +7,15 @@ module.exports = {
       type: Sequelize.INTEGER,
       references:{model:'pessoa', key: 'id'},
       onDelete:'CASCADE',
-      allowNull: false});
+      allowNull: true});
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-    queryInterface.removeColumn('pessoa_fisica', 'pessoa_id');
+    
+    queryInterface.removeColumn('pessoa_fisica', 'pessoa_id', { 
+      type: Sequelize.INTEGER,
+      references:{model:'pessoa', key: 'id'},
+      onDelete:'CASCADE',
+      allowNull: true});
   }
 };

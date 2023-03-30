@@ -38,7 +38,6 @@ module.exports = {
                 now(),
                 '${categoria_id}',
                 '${subcategoria_id}'
-
             );
         `)
         if(affectedRows > 0) {
@@ -47,25 +46,7 @@ module.exports = {
         }
 
         return res.json(response);
-    },
-
-    //metodo de verificação se usuario existe
-    async login(req, res) {
-        const response = {...responseModel}
-        const { username, password } = req.body;
-
-        const [, data] = await connection.query(`
-            SELECT * FROM users
-            WHERE username='${username}' AND password='${password}'
-            ORDER BY id DESC LIMIT 1
-        `)
-
-        if(data.length > 0) {
-            response.success = true
-           console.log('exist')
-        }
-
-
-        return res.json(response);
     }
+
+
 };

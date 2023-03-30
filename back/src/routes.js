@@ -12,8 +12,8 @@ router.use(function(req, res, next) {
     next();
 })
 //rotas da tabela users
-router.post('/Users/create', UserCeontroller.create);
-router.post('/Users/login', UserCeontroller.login);
+router.post('/User/create', UserCeontroller.create);
+router.post('/User/login', UserCeontroller.login);
 router.post('/Produto/create', ProdutoController.create);
 
 module.exports = router;
