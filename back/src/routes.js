@@ -18,6 +18,9 @@ router.post('/User/create', UserCeontroller.create);
 router.post('/User/login', UserCeontroller.login);
 //rotas produto
 router.post('/Produto/create', ProdutoController.create);
+router.post('/Produto/edit', ProdutoController.edit);
+router.post('/Produto/delete', ProdutoController.delete);
+router.get('/Produto/select', ProdutoController.select);
 //rotas categoria
 router.post('/Categoria/create', CategoriaController.create);
 router.post('/Categoria/edit', CategoriaController.edit);
