@@ -30,11 +30,11 @@ module.exports = {
     //metodo de alteração de dados
     async edit(req, res) {
         const response = {...responseModel}
-        const {idCategoria,descricao} = req.body;
+        const {idSubcategoria,descricao} = req.body;
 
         const [id, affectedRows] = await connection.query(`
         UPDATE subcategoria SET descricao='${descricao}'  
-        WHERE id='${idCategoria}';
+        WHERE id='${idSubcategoria}';
         `);
         if(affectedRows > 0) {
             response.success = true    
@@ -45,15 +45,25 @@ module.exports = {
     //metodo de ddeletar dados
     async delete(req, res) {
         const response = {...responseModel}
-        const {idCategoria} = req.body;
+        const {idSubcategoria} = req.body;
 
         const [id, affectedRows] = await connection.query(`
-        DELETE FROM subcategoria WHERE id='${idCategoria}';
+        DELETE FROM subcategoria WHERE id='${idSubcategoria}';
         `);
         if(affectedRows > 0) {
             response.success = true    
         }
 
         return res.json(response);
-    } 
+    },
+
+    //metodo que pega todos os dados existentes no bd
+    async mostrar(req, res) {
+        try {
+          const results = await connection.query('SELECT * FROM subcategoria');
+          res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+      }
 };

@@ -47,6 +47,8 @@ module.exports = {
 
         return res.json(response);
     },
+
+    //metodo de atualização das informacões existente no bd
     async edit(req, res) {
         const response = {...responseModel}
         const {idProduto, nome, marca, cod_barra, tamanho, 
@@ -81,7 +83,7 @@ module.exports = {
 
         return res.json(response);
     },
-
+//metodo de exclusão de dados
     async delete(req, res) {
         const response = {...responseModel}
         const {idProduto} = req.body;
@@ -95,19 +97,14 @@ module.exports = {
         return res.json(response);
     },
 
-    async select(req, res) {
-        const response = {...responseModel}
-        const {idProduto} = req.body;
-
-        const [id, affectedRows] = await connection.query(`
-        SELECT * FROM produto;
-        `)
-        if(affectedRows > 0) {
-            response.success = true     
+    //metodo que pega todos os dados existentes no bd
+    async mostrar(req, res) {
+        try {
+          const results = await connection.query('SELECT * FROM produto');
+          res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
         }
-        return res.json(response);
-    },
-    
-
+      }  
 
 };

@@ -50,5 +50,20 @@ module.exports = {
 
 
         return res.json(response);
-    }
+    },
+//metodo de atualização das informacões existente no bd
+    async edit(req, res) {
+        const response = {...responseModel}
+        const {idUsers,password} = req.body;
+
+        const [id, affectedRows] = await connection.query(`
+        UPDATE users SET password='${password}'  
+        WHERE id='${idUsers}';
+        `);
+        if(affectedRows > 0) {
+            response.success = true    
+        }
+
+        return res.json(response);
+    },
 };
