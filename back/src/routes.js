@@ -60,7 +60,7 @@ router.get('/PessoaJuridica/mostrar', PessoaJuridicaController.mostrar);
 
 //rotas pessoa_tel
 router.post('/PessoaTell/create', PessoaTellController.create);
-router.post('/PessoaTell/edit', PessoaJuridicaController.edit);
-router.post('/PessoaTell/delete', PessoaJuridicaController.delete);
-router.get('/PessoaTell/mostrar', PessoaJuridicaController.mostrar);
+router.post('/PessoaTell/edit', PessoaTellController.edit);
+router.post('/PessoaTell/delete', PessoaTellController.delete);
+router.get('/PessoaTell/mostrar', PessoaTellController.mostrar);
 module.exports = router;
