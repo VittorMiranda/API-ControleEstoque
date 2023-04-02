@@ -10,6 +10,7 @@ const SubcategoriaController = require('./controllers/SubcategoriaController');
 const PessoaController = require('./controllers/PessoaController');
 const PessoaFisicaController = require('./controllers/PessoaFisicaController');
 const PessoaJuridicaController = require('./controllers/PessoaJuridicaController');
+const PessoaTellController = require('./controllers/PessoaTellController');
 //permite que a api fique publica para ser acessada pelas aplicações
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -56,4 +57,10 @@ router.post('/PessoaJuridica/create', PessoaJuridicaController.create);
 router.post('/PessoaJuridica/edit', PessoaJuridicaController.edit);
 router.post('/PessoaJuridica/delete', PessoaJuridicaController.delete);
 router.get('/PessoaJuridica/mostrar', PessoaJuridicaController.mostrar);
+
+//rotas pessoa_tel
+router.post('/PessoaTell/create', PessoaTellController.create);
+router.post('/PessoaTell/edit', PessoaJuridicaController.edit);
+router.post('/PessoaTell/delete', PessoaJuridicaController.delete);
+router.get('/PessoaTell/mostrar', PessoaJuridicaController.mostrar);
 module.exports = router;
