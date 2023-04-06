@@ -12,6 +12,7 @@ const responseModel = {
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
+        try{
         const response = {...responseModel}
         const { nome, marca, cod_barra, tamanho, 
             descricao, imagem, data_vencimento, qtd_estoque,
@@ -44,10 +45,14 @@ module.exports = {
         }
 
         return res.json(response);
+        }catch(error){
+            res.status(400).json({ message: error.message });
+        }
     },
 
     //metodo de atualização das informacões existente no bd
     async edit(req, res) {
+        try{
         const response = {...responseModel}
         const {idProduto, nome, marca, cod_barra, tamanho, 
             descricao, imagem, data_vencimento, qtd_estoque,
@@ -78,12 +83,15 @@ module.exports = {
         }
 
         return res.json(response);
+        }catch(error){
+         res.status(400).json({ message: error.message });
+        }
     },
 //metodo de exclusão de dados
     async delete(req, res) {
+        try{
         const response = {...responseModel}
         const {idProduto} = req.body;
-
         const [id, affectedRows] = await connection.query(`
         DELETE FROM categoria WHERE id='${idProduto}';
         `)
@@ -91,6 +99,9 @@ module.exports = {
             response.success = true     
         }
         return res.json(response);
+        }catch(error){
+            res.status(400).json({ message: error.message });
+        }
     },
 
     //metodo que pega todos os dados existentes no bd
@@ -101,6 +112,17 @@ module.exports = {
         } catch (error) {
           res.status(400).json({ message: error.message });
         }
-      }  
+      },
+      
+      //metodo que pega apenas o nome selecionado
+    async buscar(req, res) {
+        try {
+            const {nome} = req.body;
+          const results = await connection.query(`SELECT * FROM produto where nome='${nome}'`);
+          res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+      }
 
 };
