@@ -16,7 +16,7 @@ module.exports = {
         const { nome, marca, cod_barra, tamanho, 
             descricao, imagem, data_vencimento, qtd_estoque,
             qtd_min, preco_custo, preco_venda, valor_lucro,
-            porcentagem_lucro, categoria_id, subcategoria_id} = req.body;
+            porcentagem_lucro} = req.body;
 
         const [id, affectedRows] = await connection.query(`
             INSERT INTO produto VALUES (
@@ -36,8 +36,6 @@ module.exports = {
                 '${porcentagem_lucro}',
                 now(),
                 now(),
-                '${categoria_id}',
-                '${subcategoria_id}'
             );
         `)
         if(affectedRows > 0) {
@@ -54,7 +52,7 @@ module.exports = {
         const {idProduto, nome, marca, cod_barra, tamanho, 
             descricao, imagem, data_vencimento, qtd_estoque,
             qtd_min, preco_custo, preco_venda, valor_lucro,
-            porcentagem_lucro, categoria_id, subcategoria_id} = req.body;
+            porcentagem_lucro} = req.body;
 
         const [id, affectedRows] = await connection.query(`
         UPDATE produto SET 
@@ -71,9 +69,7 @@ module.exports = {
                 preco_venda='${preco_venda}',
                 valor_lucro='${valor_lucro}',
                 porcentagem_lucro='${porcentagem_lucro}',
-                updated_at=now(),
-                categoria_id='${categoria_id}',
-                subcategoria_id='${subcategoria_id}'
+                updated_at=now()
                 WHERE id='${idProduto}';
         `)
         if(affectedRows > 0) {

@@ -1,11 +1,14 @@
 const Sequelize = require('sequelize');
 const database = require('../src/database/connection');
 
-const Venda = database.define('venda',{
+const Compra = database.define('compra',{
     id:{ 
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true
+      },
+      tipo_transacao:{
+        type: Sequelize.STRING(10)
       },
       nota_fiscal:{
         type: Sequelize.STRING(100)
@@ -19,18 +22,10 @@ const Venda = database.define('venda',{
       desconto:{
         type: Sequelize.DECIMAL(9,2)  
       },
-      valor_venda:{
-        type: Sequelize.DECIMAL(9,2)  
-      },
       status:{
         type: Sequelize.STRING(45)  
-      },
-      created_at:{
-        type: Sequelize.DATE
-      },
-      updated_at:{
-        type: Sequelize.DATE
       }
-});
+      
+    });
 
-module.exports = Venda;
+module.exports = Compra;

@@ -3,9 +3,9 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    queryInterface.addColumn('pessoa_tel', 'pessoa_id', { 
+    queryInterface.addColumn('cliente_fornecedor_tel', 'cliente_fornecedor_id', { 
       type: Sequelize.INTEGER,
-      references:{model:'pessoa', key: 'id'},
+      references:{model:'cliente_fornecedor', key: 'id'},
       onDelete:'CASCADE',
       allowNull: true});
   },
@@ -17,9 +17,9 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    queryInterface.removeColumn('pessoa_tel', 'pessoa_id', { 
+    queryInterface.removeColumn('cliente_fornecedor_tel', 'cliente_fornecedor_id', { 
       type: Sequelize.INTEGER,
-      references:{model:'pessoa', key: 'id'},
+      references:{model:'cliente_fornecedor', key: 'id'},
       onDelete:'CASCADE',
       allowNull: true});
   }

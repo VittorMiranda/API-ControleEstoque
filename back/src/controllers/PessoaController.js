@@ -13,7 +13,7 @@ module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         const response = {...responseModel}
-        const { nome, email, cep, logradouro, num_end, bairro, cidade, uf, created_at, updated_at} = req.body;
+        const { nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, created_at, updated_at} = req.body;
 
         const [id, affectedRows] = await connection.query(`
             INSERT INTO pessoa VALUES (
@@ -26,6 +26,9 @@ module.exports = {
                 '${bairro}',
                 '${cidade}',
                 '${uf}',
+                '${cnpj}',
+                '${cpf}',
+                '${genero}',
                 now(),
                 now()
             );
@@ -41,7 +44,7 @@ module.exports = {
     //metodo de atualização das informacões existente no bd
     async edit(req, res) {
         const response = {...responseModel}
-        const { idPessoa, nome, email, cep, logradouro, num_end, bairro, cidade, uf, created_at, updated_at} = req.body;
+        const { idPessoa, nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, created_at, updated_at} = req.body;
 
         const [id, affectedRows] = await connection.query(`
         UPDATE pessoa SET 
@@ -53,6 +56,9 @@ module.exports = {
         bairro='${bairro}',
         cidade='${cidade}',
         uf='${uf}',
+        cnpj='${cnpj}',
+        cpf='${cpf}',
+        genero='${genero}',
         updated_at=now()
          WHERE id='${idPessoa}';
         `)

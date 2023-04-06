@@ -3,18 +3,28 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    queryInterface.addColumn('produto', 'subcategoria_id', { 
-      type: Sequelize.INTEGER,
-      references:{model:'subcategoria', key: 'id'},
-      onDelete:'CASCADE',
-      allowNull: true});
+    await queryInterface.createTable('subcategoria_produto', { 
+      id:{ 
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement:true
+      },
+      produto_id:{
+        type: Sequelize.INTEGER,
+        references:{model:'produto', key: 'id'},
+        onDelete:'CASCADE',
+        allowNull: true
+      },
+      subcategoria_id:{
+        type: Sequelize.INTEGER,
+        references:{model:'subcategoria', key: 'id'},
+        onDelete:'CASCADE',
+        allowNull: true
+      }
+     });
   },
 
   async down (queryInterface, Sequelize) {
-    queryInterface.removeColumn('produto', 'subcategoria_id', { 
-      type: Sequelize.INTEGER,
-      references:{model:'subcategoria', key: 'id'},
-      onDelete:'CASCADE',
-      allowNull: true});
+    await queryInterface.dropTable('subcategoria_produto');
   }
 };

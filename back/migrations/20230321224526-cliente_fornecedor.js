@@ -1,8 +1,16 @@
-const Sequelize = require('sequelize');
-const database = require('../src/database/connection');
+'use strict';
 
-const Pessoa = database.define('pessoa',{
-    id:{ 
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+     */
+    await queryInterface.createTable("cliente_fornecedor",{
+      id:{ 
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true
@@ -32,12 +40,25 @@ const Pessoa = database.define('pessoa',{
       uf:{
         type: Sequelize.STRING(2)   
       },
+      cnpj:{
+        type: Sequelize.STRING(18)
+      },
+      cpf:{
+        type: Sequelize.STRING(14)
+      },
+      genero:{
+        type: Sequelize.STRING(10)
+      },
       created_at:{
         type: Sequelize.DATE
       },
       updated_at:{
         type: Sequelize.DATE
-      }   
+      }
 });
+  },
 
-module.exports = Pessoa;
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable("cliente_fornecedor")
+  }
+};

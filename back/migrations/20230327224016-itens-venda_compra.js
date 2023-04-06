@@ -8,23 +8,21 @@ module.exports = {
      *
      * Example:
      */
-    await queryInterface.createTable('compra', {
+     await queryInterface.createTable('itens_venda_compra', {
       id:{ 
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true
       },
-      nota_fiscal:{
-        type: Sequelize.STRING(100)
+      quantidade:{
+        type: Sequelize.INTEGER, 
+        allowNull: false
       },
-      data:{
-        type: Sequelize.DATE  
+      valor_unitario:{
+        type: Sequelize.DECIMAL(9,2),
       },
-      total:{
-        type: Sequelize.DECIMAL(9,2)  
-      },
-      status:{
-        type: Sequelize.STRING(45)  
+      total_item:{
+        type: Sequelize.DECIMAL(9,2),
       }
      });
      
@@ -36,7 +34,7 @@ module.exports = {
      *
      * Example:
      */
-    await queryInterface.dropTable('compra');
+     await queryInterface.dropTable('itens_venda_compra');
      
   }
 };

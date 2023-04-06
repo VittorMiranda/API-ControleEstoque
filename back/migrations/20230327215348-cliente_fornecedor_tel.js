@@ -7,22 +7,18 @@ module.exports = {
      * Add altering commands here.
      *
      * Example:
-     */
-     await queryInterface.createTable('itens_compra', {
+     */ 
+    await queryInterface.createTable('cliente_fornecedor_tel', { 
       id:{ 
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true
       },
-      quantidade:{
-        type: Sequelize.INTEGER, 
-        allowNull: false
+      tipo:{
+        type: Sequelize.STRING(30)
       },
-      valor_unitario:{
-        type: Sequelize.DECIMAL(9,2),
-      },
-      total_item:{
-        type: Sequelize.DECIMAL(9,2),
+      telefone:{
+        type: Sequelize.STRING(15)
       }
      });
      
@@ -34,7 +30,7 @@ module.exports = {
      *
      * Example:
      */
-     await queryInterface.dropTable('itens_compra');
+     await queryInterface.dropTable('cliente_fornecedor_tel');
      
   }
 };

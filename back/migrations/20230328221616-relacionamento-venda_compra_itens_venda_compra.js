@@ -3,17 +3,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    queryInterface.addColumn('venda', 'tipo_pagamendo_id', { 
+    queryInterface.addColumn('itens_venda_compra', 'venda_compra_id', { 
       type: Sequelize.INTEGER,
-      references:{model:'tipo_pagamento', key: 'id'},
+      references:{model:'venda_compra', key: 'id'},
       onDelete:'CASCADE',
       allowNull: true});
   },
 
   async down (queryInterface, Sequelize) {
-    queryInterface.removeColumn('venda', 'tipo_pagamendo_id', { 
+    queryInterface.removeColumn('itens_venda_compra', 'venda_compra_id', { 
       type: Sequelize.INTEGER,
-      references:{model:'tipo_pagamento', key: 'id'},
+      references:{model:'venda_compra', key: 'id'},
       onDelete:'CASCADE',
       allowNull: true});
   }
