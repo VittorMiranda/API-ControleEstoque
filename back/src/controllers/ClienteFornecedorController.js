@@ -12,75 +12,87 @@ const responseModel = {
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
-        const response = {...responseModel}
-        const { nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, created_at, updated_at} = req.body;
+        try{
+            const response = {...responseModel}
+            const { nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, created_at, updated_at} = req.body;
 
-        const [id, affectedRows] = await connection.query(`
-            INSERT INTO cliente_fornecedor VALUES (
-                DEFAULT,
-                '${nome}',
-                '${email}',
-                '${cep}',
-                '${logradouro}',
-                '${num_end}',
-                '${bairro}',
-                '${cidade}',
-                '${uf}',
-                '${cnpj}',
-                '${cpf}',
-                '${genero}',
-                now(),
-                now()
-            );
-        `)
-        if(affectedRows > 0) {
-            response.success = true
-            
-        }
+            const [id, affectedRows] = await connection.query(`
+                INSERT INTO cliente_fornecedor VALUES (
+                    DEFAULT,
+                    '${nome}',
+                    '${email}',
+                    '${cep}',
+                    '${logradouro}',
+                    '${num_end}',
+                    '${bairro}',
+                    '${cidade}',
+                    '${uf}',
+                    '${cnpj}',
+                    '${cpf}',
+                    '${genero}',
+                    now(),
+                    now()
+                );
+            `)
+            if(affectedRows > 0) {
+                response.success = true
+                
+            }
 
-        return res.json(response);
+            return res.json(response);
+        }catch (error) {
+            res.status(400).json({ message: error.message });
+          }
     },
 
     //metodo de atualização das informacões existente no bd
     async edit(req, res) {
-        const response = {...responseModel}
-        const { idPessoa, nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, created_at, updated_at} = req.body;
+        try{
+            const response = {...responseModel}
+            const { idPessoa, nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, created_at, updated_at} = req.body;
 
-        const [id, affectedRows] = await connection.query(`
-        UPDATE cliente_fornecedor SET 
-        nome='${nome}',
-        email='${email}',
-        cep='${cep}',
-        logradouro='${logradouro}',
-        num_end='${num_end}',
-        bairro='${bairro}',
-        cidade='${cidade}',
-        uf='${uf}',
-        cnpj='${cnpj}',
-        cpf='${cpf}',
-        genero='${genero}',
-        updated_at=now()
-         WHERE id='${idPessoa}';
-        `)
-        if(affectedRows > 0) {
-            response.success = true
-            
-        }
+            const [id, affectedRows] = await connection.query(`
+            UPDATE cliente_fornecedor SET 
+            nome='${nome}',
+            email='${email}',
+            cep='${cep}',
+            logradouro='${logradouro}',
+            num_end='${num_end}',
+            bairro='${bairro}',
+            cidade='${cidade}',
+            uf='${uf}',
+            cnpj='${cnpj}',
+            cpf='${cpf}',
+            genero='${genero}',
+            updated_at=now()
+            WHERE id='${idPessoa}';
+            `)
+            if(affectedRows > 0) {
+                response.success = true
+                
+            }
 
-        return res.json(response);
+            return res.json(response);
+        }catch (error) {
+            res.status(400).json({ message: error.message });
+          }
     },
 //metodo de exclusão de dados
     async delete(req, res) {
-        const response = {...responseModel}
-        const {idPessoa} = req.body;
+        try{
+            const response = {...responseModel}
+            const {idPessoa} = req.body;
 
-        const [id, affectedRows] = await connection.query(`
-        DELETE FROM cliente_fornecedor WHERE id='${idPessoa}';
-        `)
-        if(affectedRows > 0) {
-            response.success = true     
-        }
-        return res.json(response);
+            const [id, affectedRows] = await connection.query(`
+            DELETE FROM cliente_fornecedor WHERE id='${idPessoa}';
+            `)
+            if(affectedRows > 0) {
+                response.success = true     
+            }
+            return res.json(response);
+        }catch (error) {
+            res.status(400).json({ message: error.message });
+          }
     },
 
     //metodo que pega todos os dados existentes no bd

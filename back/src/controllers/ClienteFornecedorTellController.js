@@ -12,22 +12,26 @@ const responseModel = {
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
-        const response = {...responseModel}
-        const {tipo, telefone, pessoa_id} = req.body;
+        try{
+            const response = {...responseModel}
+            const {tipo, telefone, pessoa_id} = req.body;
 
-        const [id, affectedRows] = await connection.query(`
-            INSERT INTO cliente_fornecedor_tel VALUES (
-                DEFAULT,
-                '${tipo}',
-                '${telefone}',
-                '${pessoa_id}'               
-            );
-        `);
-        if(affectedRows > 0) {
-            response.success = true    
-        }
+            const [id, affectedRows] = await connection.query(`
+                INSERT INTO cliente_fornecedor_tel VALUES (
+                    DEFAULT,
+                    '${tipo}',
+                    '${telefone}',
+                    '${pessoa_id}'               
+                );
+            `);
+            if(affectedRows > 0) {
+                response.success = true    
+            }
 
-        return res.json(response);
+            return res.json(response);
+        }catch (error) {
+            res.status(400).json({ message: error.message });
+          }
     },
     //metodo de alteração de dados
     async edit(req, res) {
