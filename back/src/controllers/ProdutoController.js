@@ -36,7 +36,7 @@ module.exports = {
                     '${valor_lucro}',
                     '${porcentagem_lucro}',
                     now(),
-                    now(),
+                    now()
                 );
             `)
             if(affectedRows > 0) {
