@@ -18,9 +18,6 @@ module.exports = {
         type: Sequelize.STRING(45), 
         allowNull: false
       },
-      marca:{
-        type: Sequelize.STRING(45)
-      },
       cod_barra:{
         type: Sequelize.STRING(15)
       },

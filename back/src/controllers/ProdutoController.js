@@ -8,7 +8,8 @@ const responseModel = {
     data: [],
     error: []
 };
-
+const created_at = Date();
+const updated_at = Date();
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
@@ -16,14 +17,14 @@ module.exports = {
             const response = {...responseModel}
             const { nome, marca, cod_barra, tamanho, 
                 descricao, imagem, data_vencimento, qtd_estoque,
-                qtd_min, preco_custo, preco_venda, valor_lucro,
-                porcentagem_lucro} = req.body;
+                qtd_min, preco_custo, preco_venda} = req.body;
+            const valor_lucro = preco_venda - preco_custo;
+            const porcentagem_lucro = (valor_lucro/preco_venda)*100;
 
             const [id, affectedRows] = await connection.query(`
                 INSERT INTO produto VALUES (
                     DEFAULT,
                     '${nome}',
-                    '${marca}',
                     '${cod_barra}',
                     '${tamanho}',
                     '${descricao}',
@@ -35,8 +36,9 @@ module.exports = {
                     '${preco_venda}',
                     '${valor_lucro}',
                     '${porcentagem_lucro}',
-                    now(),
-                    now()
+                    '${created_at}',
+                    '${updated_at}',
+                    '${marca}'
                 );
             `)
             if(affectedRows > 0) {
@@ -56,13 +58,13 @@ module.exports = {
             const response = {...responseModel}
             const {idProduto, nome, marca, cod_barra, tamanho, 
                 descricao, imagem, data_vencimento, qtd_estoque,
-                qtd_min, preco_custo, preco_venda, valor_lucro,
-                porcentagem_lucro} = req.body;
+                qtd_min, preco_custo, preco_venda} = req.body;
+            const valor_lucro = preco_venda - preco_custo;
+            const porcentagem_lucro = (valor_lucro/preco_venda)*100;
 
             const [id, affectedRows] = await connection.query(`
             UPDATE produto SET 
                     nome ='${nome}',
-                    marca='${marca}',
                     cod_barra='${cod_barra}',
                     tamanho='${tamanho}',
                     descricao='${descricao}',
@@ -74,7 +76,8 @@ module.exports = {
                     preco_venda='${preco_venda}',
                     valor_lucro='${valor_lucro}',
                     porcentagem_lucro='${porcentagem_lucro}',
-                    updated_at=now()
+                    updated_at='${updated_at}',
+                    marca='${marca}'
                     WHERE id='${idProduto}';
             `)
             if(affectedRows > 0) {
