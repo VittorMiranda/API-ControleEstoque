@@ -8,8 +8,7 @@ const responseModel = {
     data: [],
     error: []
 };
-const created_at = Date();
-const updated_at = Date();
+
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
@@ -36,8 +35,8 @@ module.exports = {
                     '${preco_venda}',
                     '${valor_lucro}',
                     '${porcentagem_lucro}',
-                    '${created_at}',
-                    '${updated_at}',
+                    now(),
+                    now(),
                     '${marca}'
                 );
             `)
@@ -76,7 +75,7 @@ module.exports = {
                     preco_venda='${preco_venda}',
                     valor_lucro='${valor_lucro}',
                     porcentagem_lucro='${porcentagem_lucro}',
-                    updated_at='${updated_at}',
+                    updated_at=now(),
                     marca='${marca}'
                     WHERE id='${idProduto}';
             `)

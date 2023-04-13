@@ -8,8 +8,6 @@ const responseModel = {
     data: [],
     error: []
 };
-const created_at = Date();
-const updated_at = Date();
 
 module.exports = {
     //metodo de incerção de dados
@@ -32,8 +30,8 @@ module.exports = {
                     '${cnpj}',
                     '${cpf}',
                     '${genero}',
-                    '${created_at}',
-                    '${updated_at}'
+                    now(),
+                    now()
                 );
             `)
             if(affectedRows > 0) {
@@ -66,7 +64,7 @@ module.exports = {
             cnpj='${cnpj}',
             cpf='${cpf}',
             genero='${genero}',
-            updated_at='${updated_at}'
+            updated_at=now()
             WHERE id='${idPessoa}';
             `)
             if(affectedRows > 0) {
