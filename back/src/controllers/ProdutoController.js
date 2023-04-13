@@ -95,7 +95,7 @@ module.exports = {
             const response = {...responseModel}
             const {idProduto} = req.body;
             const [id, affectedRows] = await connection.query(`
-            DELETE FROM categoria WHERE id='${idProduto}';
+            DELETE FROM produto WHERE id='${idProduto}';
             `)
             if(affectedRows > 0) {
                 response.success = true     
