@@ -14,9 +14,9 @@ module.exports = {
     async create(req, res) {
         try{
             const response = {...responseModel}
-            const { nome, marca, cod_barra, tamanho, 
+            const { nome, cod_barra, tamanho, 
                 descricao, imagem, data_vencimento, qtd_estoque,
-                qtd_min, preco_custo, preco_venda} = req.body;
+                qtd_min, preco_custo, preco_venda, marca_id} = req.body;
             const valor_lucro = preco_venda - preco_custo;
             const porcentagem_lucro = (valor_lucro/preco_venda)*100;
 
@@ -37,7 +37,7 @@ module.exports = {
                     '${porcentagem_lucro}',
                     now(),
                     now(),
-                    '${marca}'
+                    '${marca_id}'
                 );
             `)
             if(affectedRows > 0) {
@@ -55,9 +55,9 @@ module.exports = {
     async edit(req, res) {
         try{
             const response = {...responseModel}
-            const {idProduto, nome, marca, cod_barra, tamanho, 
+            const {idProduto, nome, cod_barra, tamanho, 
                 descricao, imagem, data_vencimento, qtd_estoque,
-                qtd_min, preco_custo, preco_venda} = req.body;
+                qtd_min, preco_custo, preco_venda, marca_id} = req.body;
             const valor_lucro = preco_venda - preco_custo;
             const porcentagem_lucro = (valor_lucro/preco_venda)*100;
 
@@ -76,7 +76,7 @@ module.exports = {
                     valor_lucro='${valor_lucro}',
                     porcentagem_lucro='${porcentagem_lucro}',
                     updated_at=now(),
-                    marca='${marca}'
+                    marca_id='${marca_id}'
                     WHERE id='${idProduto}';
             `)
             if(affectedRows > 0) {
