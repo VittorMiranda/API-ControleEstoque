@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const database = process.env.DATABASE;
 const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
-const host = process.env.HOST;
+const host = process.env.HOST;//mysqlserver.cnswr3a4oqq3.sa-east-1.rds.amazonaws.com
 const dialect = process.env.DIALECT;
 
 

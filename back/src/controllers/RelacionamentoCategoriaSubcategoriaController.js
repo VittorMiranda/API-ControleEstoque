@@ -20,7 +20,7 @@ module.exports = {
                 INSERT INTO categoria_subcategoria VALUES (
                     DEFAULT,
                     '${idCategoria}',
-                    '${idSubcategoria}               
+                    '${idSubcategoria}'              
                 );
             `);
             if(affectedRows > 0) {
