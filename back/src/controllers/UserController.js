@@ -1,6 +1,13 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection');
+const connection = require('../database/connection')
+
+
+const responseModel = { 
+    success: false, 
+    data: [],
+    error: []
+};
 
 module.exports = {
     //metodo de incerção de dados
@@ -18,10 +25,13 @@ module.exports = {
                     now(),
                     now()               
                 );
-            `);
+            `)
+            if(affectedRows > 0) {
+                response.success = true
+                
+            }
 
-            res.status(200).json({ message: "Cadastro realizado com sucesso" });
-
+            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -37,8 +47,15 @@ module.exports = {
                 SELECT nome_usuario FROM users
                 WHERE username='${username}' AND password='${password}'
                 ORDER BY id DESC LIMIT 1
-            `);
+            `)
 
+            if(data.length > 0) {
+                response.success = true
+            console.log('exist')
+            }
+
+
+            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -53,9 +70,11 @@ module.exports = {
             UPDATE users SET nome_usuario='${nome}', password='${password}'  
             WHERE id='${idUsers}';
             `);
-            
-            res.status(200).json({ message: "Alteração realizada com sucesso" });
-            
+            if(affectedRows > 0) {
+                response.success = true    
+            }
+
+            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
         }

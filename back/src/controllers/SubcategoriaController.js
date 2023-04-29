@@ -1,6 +1,13 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection');
+const connection = require('../database/connection')
+
+
+const responseModel = { 
+    success: false, 
+    data: [],
+    error: []
+};
 
 module.exports = {
     //metodo de incerção de dados
@@ -15,9 +22,11 @@ module.exports = {
                     '${subcategoria}'               
                 );
             `);
-            
-            res.status(200).json({ message: "Cadastro realizado com sucesso" });
+            if(affectedRows > 0) {
+                response.success = true    
+            }
 
+            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -32,9 +41,11 @@ module.exports = {
             UPDATE subcategoria SET subcategoria='${subcategoria}'  
             WHERE id='${idSubcategoria}';
             `);
-           
-            res.status(200).json({ message: "Alteração realizada com sucesso" });
+            if(affectedRows > 0) {
+                response.success = true    
+            }
 
+            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -48,9 +59,11 @@ module.exports = {
             const [id, affectedRows] = await connection.query(`
             DELETE FROM subcategoria WHERE id='${idSubcategoria}';
             `);
+            if(affectedRows > 0) {
+                response.success = true    
+            }
 
-           res.status(200).json({ message: "Excluido com sucesso" });
-
+            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
           }

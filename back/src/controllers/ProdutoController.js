@@ -2,6 +2,13 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection');
 
+
+const responseModel = { 
+    success: false, 
+    data: [],
+    error: []
+};
+
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
@@ -32,10 +39,13 @@ module.exports = {
                     now(),
                     '${marca_id}'
                 );
-            `);
+            `)
+            if(affectedRows > 0) {
+                response.success = true
+                
+            }
 
-            res.status(200).json({ message: "Cadastro realizado com sucesso" });
-
+            return res.json(response);
         }catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -68,10 +78,13 @@ module.exports = {
                     updated_at=now(),
                     marca_id='${marca_id}'
                     WHERE id='${idProduto}';
-            `);
+            `)
+            if(affectedRows > 0) {
+                response.success = true
+                
+            }
 
-            res.status(200).json({ message: "Alteração realizada com sucesso" });
-
+            return res.json(response);
         }catch(error){
          res.status(400).json({ message: error.message });
         }
@@ -83,10 +96,11 @@ module.exports = {
             const {idProduto} = req.body;
             const [id, affectedRows] = await connection.query(`
             DELETE FROM produto WHERE id='${idProduto}';
-            `);
-
-            res.status(200).json({ message: "Excluido com sucesso" });
-            
+            `)
+            if(affectedRows > 0) {
+                response.success = true     
+            }
+            return res.json(response);
         }catch(error){
             res.status(400).json({ message: error.message });
         }
