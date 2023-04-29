@@ -1,13 +1,6 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection')
-
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
+const connection = require('../database/connection');
 
 module.exports = {
     //metodo de incerção de dados
@@ -39,13 +32,10 @@ module.exports = {
                     now(),
                     '${marca_id}'
                 );
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
+            `);
 
-            return res.json(response);
+            res.status(200).json({ message: "Cadastro realizado com sucesso" });
+
         }catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -78,13 +68,10 @@ module.exports = {
                     updated_at=now(),
                     marca_id='${marca_id}'
                     WHERE id='${idProduto}';
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
+            `);
 
-            return res.json(response);
+            res.status(200).json({ message: "Alteração realizada com sucesso" });
+
         }catch(error){
          res.status(400).json({ message: error.message });
         }
@@ -96,11 +83,10 @@ module.exports = {
             const {idProduto} = req.body;
             const [id, affectedRows] = await connection.query(`
             DELETE FROM produto WHERE id='${idProduto}';
-            `)
-            if(affectedRows > 0) {
-                response.success = true     
-            }
-            return res.json(response);
+            `);
+
+            res.status(200).json({ message: "Excluido com sucesso" });
+            
         }catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -109,7 +95,7 @@ module.exports = {
     //metodo que pega todos os dados existentes no bd
     async mostrar(req, res) {
         try {
-          const results = await connection.query('SELECT * FROM produto');
+          const results = await connection.query('SELECT * FROM produto JOIN marca ON produto.marca_id = marca.id');
           res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
@@ -117,10 +103,19 @@ module.exports = {
       },
       
       //metodo que pega apenas o nome selecionado
-    async buscar(req, res) {
+      async buscarNome(req, res) {
         try {
             const {nome} = req.body;
-            const results = await connection.query(`SELECT * FROM produto where nome='${nome}'`);
+            const results = await connection.query(`SELECT * FROM produto JOIN marca ON produto.marca_id = marca.id where nome='${nome}'`);
+            res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+      },
+      async buscarCodigoBarras(req, res) {
+        try {
+            const {cod_barra} = req.body;
+            const results = await connection.query(`SELECT * FROM produto JOIN marca ON produto.marca_id = marca.id where cod_barra='${cod_barra}'`);
             res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });

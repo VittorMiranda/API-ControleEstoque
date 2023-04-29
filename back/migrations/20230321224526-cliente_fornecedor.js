@@ -49,6 +49,15 @@ module.exports = {
       genero:{
         type: Sequelize.STRING(10)
       },
+      telefone_principal:{
+        type: Sequelize.STRING(20)
+      },
+      telefone_secundario:{
+        type: Sequelize.STRING(20)
+      },
+      telefone_recado:{
+        type: Sequelize.STRING(20)
+      },
       created_at:{
         type: Sequelize.DATE
       },

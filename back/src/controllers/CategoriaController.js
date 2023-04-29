@@ -1,32 +1,22 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection')
-
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
+const connection = require('../database/connection');
 
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
             const response = {...responseModel}
-            const {descricao} = req.body;
+            const {categoria} = req.body;
 
             const [id, affectedRows] = await connection.query(`
                 INSERT INTO categoria VALUES (
                     DEFAULT,
-                    '${descricao}'               
+                    '${categoria}'               
                 );
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            
+            res.status(200).json({ message: "Cadastro realizado com sucesso" });
         }catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -35,17 +25,14 @@ module.exports = {
     async edit(req, res) {
         try{
             const response = {...responseModel}
-            const {idCategoria,descricao} = req.body;
+            const {idCategoria,categoria} = req.body;
 
             const [id, affectedRows] = await connection.query(`
-            UPDATE categoria SET descricao='${descricao}'  
+            UPDATE categoria SET categoria='${categoria}'  
             WHERE id='${idCategoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            
+            res.status(200).json({ message: "Alteração realizada com sucesso" });
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -59,11 +46,8 @@ module.exports = {
             const [id, affectedRows] = await connection.query(`
             DELETE FROM categoria WHERE id='${idCategoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            
+            res.status(200).json({ message: "Excluido com sucesso" });
         }catch (error) {
         res.status(400).json({ message: error.message });
       }

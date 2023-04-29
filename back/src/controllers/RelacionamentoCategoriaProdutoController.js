@@ -1,13 +1,6 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection')
-
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
+const connection = require('../database/connection');
 
 module.exports = {
     //metodo de incerção de dados
@@ -23,11 +16,9 @@ module.exports = {
                     '${idCategoria}'               
                 );
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
 
-            return res.json(response);
+            res.status(200).json({ message: "Cadastro realizado com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -43,11 +34,9 @@ module.exports = {
             categoria_id='${idCategoria}'  
             WHERE id='${idCategoriaProduto}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
 
-            return res.json(response);
+            res.status(200).json({ message: "Alteração realizada com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -61,11 +50,9 @@ module.exports = {
             const [id, affectedRows] = await connection.query(`
             DELETE FROM categoria_produto WHERE id='${idCategoriaProduto}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
 
-            return res.json(response);
+            res.status(200).json({ message: "Excluido com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -74,8 +61,20 @@ module.exports = {
     //metodo que pega todos os dados existentes no bd
     async mostrar(req, res) {
         try {
-          const results = await connection.query('SELECT * FROM categoria_produto');
+          const results = await connection.query(`SELECT * FROM categoria_produto JOIN produto ON
+          categoria_produto.produto_id = produto.id JOIN categoria ON categoria_produto.categoria_id = categoria.id`);
           res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+      },
+      async filtroProdutoCategoria(req, res) {
+        try {
+            const {idProduto, idCategoria} = req.body;
+            const results = await connection.query(`SELECT * FROM categoria_produto JOIN produto ON
+             categoria_produto.produto_id = produto.id JOIN categoria ON categoria_produto.categoria_id = categoria.id where produto_id='${idProduto}' AND
+             categoria_id='${idCategoria}'`);
+            res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
         }

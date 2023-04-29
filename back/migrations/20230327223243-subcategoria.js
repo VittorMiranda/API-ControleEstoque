@@ -14,7 +14,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement:true
       },
-      descricao:{
+      subcategoria:{
         type: Sequelize.STRING(30),
         allowNull: false
       }

@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement:true
       },
-      nome:{
+      marca:{
         type: Sequelize.STRING(30),
         allowNull: false
       }

@@ -1,32 +1,23 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection')
-
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
+const connection = require('../database/connection');
 
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
             const response = {...responseModel}
-            const {descricao} = req.body;
+            const {subcategoria} = req.body;
 
             const [id, affectedRows] = await connection.query(`
                 INSERT INTO subcategoria VALUES (
                     DEFAULT,
-                    '${descricao}'               
+                    '${subcategoria}'               
                 );
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
+            
+            res.status(200).json({ message: "Cadastro realizado com sucesso" });
 
-            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -35,17 +26,15 @@ module.exports = {
     async edit(req, res) {
         try{
             const response = {...responseModel}
-            const {idSubcategoria,descricao} = req.body;
+            const {idSubcategoria,subcategoria} = req.body;
 
             const [id, affectedRows] = await connection.query(`
-            UPDATE subcategoria SET descricao='${descricao}'  
+            UPDATE subcategoria SET subcategoria='${subcategoria}'  
             WHERE id='${idSubcategoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
+           
+            res.status(200).json({ message: "Alteração realizada com sucesso" });
 
-            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -59,11 +48,9 @@ module.exports = {
             const [id, affectedRows] = await connection.query(`
             DELETE FROM subcategoria WHERE id='${idSubcategoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
 
-            return res.json(response);
+           res.status(200).json({ message: "Excluido com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
           }

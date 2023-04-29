@@ -1,20 +1,13 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection')
-
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
+const connection = require('../database/connection');
 
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
             const response = {...responseModel}
-            const { nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, created_at, updated_at} = req.body;
+            const { nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, telefone_principal, telefone_secundario, telefone_recado} = req.body;
 
             const [id, affectedRows] = await connection.query(`
                 INSERT INTO cliente_fornecedor VALUES (
@@ -30,16 +23,16 @@ module.exports = {
                     '${cnpj}',
                     '${cpf}',
                     '${genero}',
+                    '${telefone_principal}',
+                    '${telefone_secundario}',
+                    '${telefone_recado}',
                     now(),
                     now()
                 );
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
+            `);
 
-            return res.json(response);
+            res.status(200).json({ message: "Cadastro realizado com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -49,7 +42,7 @@ module.exports = {
     async edit(req, res) {
         try{
             const response = {...responseModel}
-            const { idPessoa, nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, created_at, updated_at} = req.body;
+            const { idPessoa, nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, telefone_principal, telefone_secundario, telefone_recado} = req.body;
 
             const [id, affectedRows] = await connection.query(`
             UPDATE cliente_fornecedor SET 
@@ -64,15 +57,15 @@ module.exports = {
             cnpj='${cnpj}',
             cpf='${cpf}',
             genero='${genero}',
+            telefone_principal='${telefone_principal}',
+            telefone_secundario='${telefone_secundario}',
+            telefone_recado='${telefone_recado}',
             updated_at=now()
             WHERE id='${idPessoa}';
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
+            `);
 
-            return res.json(response);
+            res.status(200).json({ message: "Alteração realizada com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -86,10 +79,9 @@ module.exports = {
             const [id, affectedRows] = await connection.query(`
             DELETE FROM cliente_fornecedor WHERE id='${idPessoa}';
             `)
-            if(affectedRows > 0) {
-                response.success = true     
-            }
-            return res.json(response);
+
+            res.status(200).json({ message: "Excluido com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
           }

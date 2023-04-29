@@ -1,36 +1,27 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection')
-
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
+const connection = require('../database/connection');
 
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
             const response = {...responseModel}
-            const { username, password } = req.body;
+            const { username, password, nome } = req.body;
 
             const [id, affectedRows] = await connection.query(`
                 INSERT INTO users VALUES (
                     DEFAULT,
+                    '${nome}',
                     '${username}',
                     '${password}',
                     now(),
                     now()               
                 );
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
+            `);
 
-            return res.json(response);
+            res.status(200).json({ message: "Cadastro realizado com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -43,18 +34,11 @@ module.exports = {
             const { username, password } = req.body;
 
             const [, data] = await connection.query(`
-                SELECT * FROM users
+                SELECT nome_usuario FROM users
                 WHERE username='${username}' AND password='${password}'
                 ORDER BY id DESC LIMIT 1
-            `)
+            `);
 
-            if(data.length > 0) {
-                response.success = true
-            console.log('exist')
-            }
-
-
-            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -63,17 +47,15 @@ module.exports = {
     async edit(req, res) {
         try{
             const response = {...responseModel}
-            const {idUsers,password} = req.body;
+            const {idUsers,password, nome} = req.body;
 
             const [id, affectedRows] = await connection.query(`
-            UPDATE users SET password='${password}'  
+            UPDATE users SET nome_usuario='${nome}', password='${password}'  
             WHERE id='${idUsers}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            
+            res.status(200).json({ message: "Alteração realizada com sucesso" });
+            
         }catch (error) {
             res.status(400).json({ message: error.message });
         }

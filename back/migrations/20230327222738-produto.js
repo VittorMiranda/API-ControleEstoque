@@ -19,16 +19,16 @@ module.exports = {
         allowNull: false
       },
       cod_barra:{
-        type: Sequelize.STRING(15)
+        type: Sequelize.STRING(20)
       },
       tamanho:{
         type: Sequelize.STRING(15)
       },
       descricao:{
-        type: Sequelize.STRING(45)
+        type: Sequelize.STRING(400)
       },
       imagem:{
-        type: Sequelize.STRING(100)
+        type: Sequelize.STRING(300)
       },
       data_vencimento:{
         type: Sequelize.DATE

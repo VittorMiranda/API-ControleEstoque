@@ -1,13 +1,6 @@
 //controle relacionado a tabela usuario
 //aqui se faz todos os comando SQL relacionadas a tabela users
-const connection = require('../database/connection')
-
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
+const connection = require('../database/connection');
 
 module.exports = {
     //metodo de incerção de dados
@@ -23,11 +16,9 @@ module.exports = {
                     '${idSubcategoria}'              
                 );
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
 
-            return res.json(response);
+            res.status(200).json({ message: "Cadastro realizado com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -43,11 +34,9 @@ module.exports = {
             subcategoria_id='${idSubcategoria}'  
             WHERE id='${idCategoriaSubcategoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
 
-            return res.json(response);
+            res.status(200).json({ message: "Alteração realizada com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -61,11 +50,9 @@ module.exports = {
             const [id, affectedRows] = await connection.query(`
             DELETE FROM categoria_subcategoria WHERE id='${idCategoriaSubcategoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
 
-            return res.json(response);
+            res.status(200).json({ message: "Excluido com sucesso" });
+
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -74,10 +61,22 @@ module.exports = {
     //metodo que pega todos os dados existentes no bd
     async mostrar(req, res) {
         try {
-          const results = await connection.query('SELECT * FROM categoria_subcategoria');
+          const results = await connection.query(`SELECT * FROM categoria_subcategoria JOIN categoria ON
+           categoria_subcategoria.categoria_id = categoria.id JOIN subcategoria ON categoria_subcategoria.subcategoria_id = subcategoria.id`);
           res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
         }
-      }
+    },
+    async filtro(req, res) {
+        try {
+          const {idCategoria, idSubcategoria} = req.body;
+          const results = await connection.query(`SELECT * FROM categoria_subcategoria JOIN categoria 
+          ON categoria_subcategoria.categoria_id = categoria.id JOIN subcategoria ON categoria_subcategoria.subcategoria_id = subcategoria.id 
+          where categoria_id=${idCategoria} AND subcategoria_id=${idSubcategoria}`);
+          res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+    }
 };
