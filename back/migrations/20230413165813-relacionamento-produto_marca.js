@@ -5,7 +5,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     queryInterface.addColumn('produto', 'marca_id', { 
       type: Sequelize.INTEGER,
-      references:{model:'marca', key: 'id'},
+      references:{model:'marca', key: 'marca_id'},
       onDelete:'CASCADE',
       allowNull: true});
   },
@@ -13,7 +13,7 @@ module.exports = {
   async down (queryInterface, Sequelize) {
     queryInterface.removeColumn('produto', 'marca_id', { 
       type: Sequelize.INTEGER,
-      references:{model:'marca', key: 'id'},
+      references:{model:'marca', key: 'marca_id'},
       onDelete:'CASCADE',
       allowNull: true});
   }

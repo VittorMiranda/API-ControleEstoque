@@ -39,7 +39,7 @@ module.exports = {
 
             const [id, affectedRows] = await connection.query(`
             UPDATE marca SET marca='${marca}'  
-            WHERE id='${idMarca}';
+            WHERE marca_id='${idMarca}';
             `);
             if(affectedRows > 0) {
                 response.success = true    
@@ -57,7 +57,7 @@ module.exports = {
             const {idMarca} = req.body;
 
             const [id, affectedRows] = await connection.query(`
-            DELETE FROM marca WHERE id='${idMarca}';
+            DELETE FROM marca WHERE marca_id='${idMarca}';
             `);
             if(affectedRows > 0) {
                 response.success = true    

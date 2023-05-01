@@ -39,7 +39,7 @@ module.exports = {
                     now(),
                     '${marca_id}'
                 );
-            `)
+            `);
             if(affectedRows > 0) {
                 response.success = true
                 
@@ -109,7 +109,7 @@ module.exports = {
     //metodo que pega todos os dados existentes no bd
     async mostrar(req, res) {
         try {
-          const results = await connection.query('SELECT * FROM produto JOIN marca ON produto.marca_id = marca.id');
+          const results = await connection.query('SELECT * FROM produto JOIN marca ON produto.marca_id = marca.marca_id');
           res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
@@ -120,7 +120,7 @@ module.exports = {
       async buscarNome(req, res) {
         try {
             const {nome} = req.body;
-            const results = await connection.query(`SELECT * FROM produto JOIN marca ON produto.marca_id = marca.id where nome='${nome}'`);
+            const results = await connection.query(`SELECT * FROM produto JOIN marca ON produto.marca_id = marca.marca_id where nome='${nome}'`);
             res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
@@ -129,7 +129,7 @@ module.exports = {
       async buscarCodigoBarras(req, res) {
         try {
             const {cod_barra} = req.body;
-            const results = await connection.query(`SELECT * FROM produto JOIN marca ON produto.marca_id = marca.id where cod_barra='${cod_barra}'`);
+            const results = await connection.query(`SELECT * FROM produto JOIN marca ON produto.marca_id = marca.marca_id where cod_barra='${cod_barra}'`);
             res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
