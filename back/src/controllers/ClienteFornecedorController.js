@@ -2,21 +2,13 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection')
 
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
-
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const response = {...responseModel}
             const { nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, telefone_principal, telefone_secundario, telefone_recado} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
+            await connection.query(`
                 INSERT INTO cliente_fornecedor VALUES (
                     DEFAULT,
                     '${nome}',
@@ -37,12 +29,8 @@ module.exports = {
                     now()
                 );
             `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
+            return res.json({success: true, message: 'Criado com sucesso'});
 
-            return res.json(response);
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -51,10 +39,9 @@ module.exports = {
     //metodo de atualização das informacões existente no bd
     async edit(req, res) {
         try{
-            const response = {...responseModel}
             const { idPessoa, nome, email, cep, logradouro, num_end, bairro, cidade, uf, cnpj, cpf, genero, telefone_principal, telefone_secundario, telefone_recado} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
+            await connection.query(`
             UPDATE cliente_fornecedor SET 
             nome='${nome}',
             email='${email}',
@@ -72,13 +59,9 @@ module.exports = {
             telefone_recado='${telefone_recado}',
             updated_at=now()
             WHERE id='${idPessoa}';
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
+            `);
 
-            return res.json(response);
+            return res.json({success: true, message: 'Alterado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -86,16 +69,11 @@ module.exports = {
 //metodo de exclusão de dados
     async delete(req, res) {
         try{
-            const response = {...responseModel}
             const {idPessoa} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            DELETE FROM cliente_fornecedor WHERE id='${idPessoa}';
-            `)
-            if(affectedRows > 0) {
-                response.success = true     
-            }
-            return res.json(response);
+            await connection.query(`DELETE FROM cliente_fornecedor WHERE id='${idPessoa}';`);
+
+            return res.json({success: true, message: 'Excluido com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
           }

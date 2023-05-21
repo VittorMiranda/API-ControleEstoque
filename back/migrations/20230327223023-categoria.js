@@ -9,13 +9,9 @@ module.exports = {
      * Example:
      */
      await queryInterface.createTable('categoria', {
-      id:{ 
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement:true
-      },
-      categoria:{
+        categoria:{
         type: Sequelize.STRING(30),
+        primaryKey: true,
         allowNull: false
       }
      });

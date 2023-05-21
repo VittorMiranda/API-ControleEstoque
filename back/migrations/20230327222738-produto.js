@@ -9,13 +9,9 @@ module.exports = {
      * Example:
      */ 
     await queryInterface.createTable('produto', {
-      id:{ 
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement:true
-      },
       nome:{
-        type: Sequelize.STRING(45), 
+        type: Sequelize.STRING(50), 
+        primaryKey: true,
         allowNull: false
       },
       cod_barra:{
@@ -27,17 +23,20 @@ module.exports = {
       descricao:{
         type: Sequelize.STRING(400)
       },
-      imagem:{
+      imagem_link:{
         type: Sequelize.STRING(300)
+      },
+      imagem_blob:{
+        type: Sequelize.BLOB
       },
       data_vencimento:{
         type: Sequelize.DATE
       },
       qtd_estoque:{
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER(8)
       },
       qtd_min:{
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER(8)
       },
       preco_custo:{
         type: Sequelize.DECIMAL(9,2)
@@ -52,10 +51,10 @@ module.exports = {
         type: Sequelize.FLOAT
       },
       created_at:{
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updated_at:{
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       }
      });
      

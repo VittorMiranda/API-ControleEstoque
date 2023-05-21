@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "vitor",
-    "password": "vivi2021",
-    "database": "controle_estoque",
-    "host": "mysqlserver.cnswr3a4oqq3.sa-east-1.rds.amazonaws.com",
+    "password": "vivi",
+    "database": "controle",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {

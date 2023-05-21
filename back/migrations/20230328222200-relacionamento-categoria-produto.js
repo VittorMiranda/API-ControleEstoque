@@ -4,21 +4,18 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('categoria_produto', { 
-      id:{ 
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement:true
-      },
-      produto_id:{
-        type: Sequelize.INTEGER,
-        references:{model:'produto', key: 'id'},
+        produto_categoria_id:{
+        type: Sequelize.STRING(50),
+        references:{model:'produto', key: 'nome'},
         onDelete:'CASCADE',
+        primaryKey: true,
         allowNull: true
       },
       categoria_id:{
-        type: Sequelize.INTEGER,
-        references:{model:'categoria', key: 'id'},
+        type: Sequelize.STRING(30),
+        references:{model:'categoria', key: 'categoria'},
         onDelete:'CASCADE',
+        primaryKey: true,
         allowNull: true
       }
      });

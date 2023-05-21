@@ -2,32 +2,19 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection')
 
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
-
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const response = {...responseModel}
-            const {idProduto, idCategoria} = req.body;
+           const {nome, categoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
+            await connection.query(`
                 INSERT INTO categoria_produto VALUES (
-                    DEFAULT,
-                    '${idProduto}',
-                    '${idCategoria}'               
+                    '${nome}',
+                    '${categoria}'               
                 );
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            return res.json({success: true, message: 'Criado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -35,19 +22,14 @@ module.exports = {
     //metodo de alteração de dados
     async edit(req, res) {
         try{
-            const response = {...responseModel}
-            const {idProduto, idCategoria, idCategoriaProduto } = req.body;
+            const {nome, nome_novo, categoria, nova_categoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            UPDATE categoria_produto SET produto_id='${idProduto}',
-            categoria_id='${idCategoria}'  
-            WHERE id='${idCategoriaProduto}';
+            await connection.query(`
+            UPDATE categoria_produto SET produto_categoria_id='${nome_novo}',
+            categoria_id='${nova_categoria}'  
+            WHERE produto_categoria_id='${nome}' and categoria_id='${categoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            return res.json({success: true, message: 'Criado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -55,17 +37,12 @@ module.exports = {
     //metodo de ddeletar dados
     async delete(req, res) {
         try{
-            const response = {...responseModel}
-            const {idCategoriaProduto} = req.body;
+            const {nome, idCategoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            DELETE FROM categoria_produto WHERE id='${idCategoriaProduto}';
+            await connection.query(`
+            DELETE FROM categoria_produto WHERE produto_categoria_id='${nome}' and categoria_id='${idCategoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            return res.json({success: true, message: 'Criado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -75,7 +52,7 @@ module.exports = {
     async mostrar(req, res) {
         try {
           const results = await connection.query(`SELECT * FROM categoria_produto JOIN produto ON
-          categoria_produto.produto_id = produto.id JOIN categoria ON categoria_produto.categoria_id = categoria.id`);
+          categoria_produto.produto_categoria_id = produto.nome`);
           res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
@@ -83,9 +60,9 @@ module.exports = {
       },
       async filtroProdutoCategoria(req, res) {
         try {
-            const {idProduto, idCategoria} = req.body;
+            const {nome, idCategoria} = req.body;
             const results = await connection.query(`SELECT * FROM categoria_produto JOIN produto ON
-             categoria_produto.produto_id = produto.id JOIN categoria ON categoria_produto.categoria_id = categoria.id where produto_id='${idProduto}' AND
+             categoria_produto.produto_categoria_id = produto.nome where produto_categoria_id='${idProduto}' AND
              categoria_id='${idCategoria}'`);
             res.json(results[0]);
         } catch (error) {

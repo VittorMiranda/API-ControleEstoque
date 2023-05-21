@@ -2,31 +2,18 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection')
 
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
-
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const response = {...responseModel}
             const {categoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-                INSERT INTO categoria VALUES (
-                    DEFAULT,
-                    '${categoria}'               
-                );
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
+            await connection.query('INSERT INTO categoria (categoria) VALUES (?)', {
+                    replacements: [categoria],
+                    type: connection.QueryTypes.INSERT,});
 
-            return res.json(response);
+            return res.json({success: true, message: 'Criado com sucesso'});
+
         }catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -34,18 +21,14 @@ module.exports = {
     //metodo de alteração de dados
     async edit(req, res) {
         try{
-            const response = {...responseModel}
-            const {idCategoria,categoria} = req.body;
+            const {categoria, nova_categoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            UPDATE categoria SET categoria='${categoria}'  
-            WHERE id='${idCategoria}';
+            await connection.query(`
+            UPDATE categoria SET categoria='${nova_categoria}'  
+            WHERE categoria='${categoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            
+            return res.json({success: true, message: 'Alterado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -53,17 +36,12 @@ module.exports = {
     //metodo de ddeletar dados
     async delete(req, res) {
         try{
-            const response = {...responseModel}
-            const {idCategoria} = req.body;
+            const {categoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            DELETE FROM categoria WHERE id='${idCategoria}';
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
+            await connection.query(`DELETE FROM categoria WHERE categoria='${categoria}';`);
+            
 
-            return res.json(response);
+            return res.json({success: true, message: 'Excluido com sucesso'});
         }catch (error) {
         res.status(400).json({ message: error.message });
       }

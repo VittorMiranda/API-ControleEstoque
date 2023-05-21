@@ -2,32 +2,26 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection');
 
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
-
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const response = {...responseModel}
             const { nome, cod_barra, tamanho, 
-                descricao, imagem, data_vencimento, qtd_estoque,
+                descricao, imagem_link, imagem_blob, data_vencimento, qtd_estoque,
                 qtd_min, preco_custo, preco_venda, marca_id} = req.body;
-            const valor_lucro = preco_venda - preco_custo;
-            const porcentagem_lucro = (valor_lucro/preco_venda)*100;
+                const lucro = preco_venda - preco_custo;
+                const valor_lucro = lucro.toFixed(2)
+                const porcentagem = (valor_lucro/preco_venda)*100;
+                const porcentagem_lucro = porcentagem.toFixed(2)
 
-            const [id, affectedRows] = await connection.query(`
+            await connection.query(`
                 INSERT INTO produto VALUES (
-                    DEFAULT,
                     '${nome}',
                     '${cod_barra}',
                     '${tamanho}',
                     '${descricao}',
-                    '${imagem}',
+                    '${imagem_link}',
+                    '${imagem_blob}',
                     '${data_vencimento}',
                     '${qtd_estoque}',
                     '${qtd_min}',
@@ -40,12 +34,7 @@ module.exports = {
                     '${marca_id}'
                 );
             `);
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
-
-            return res.json(response);
+            return res.json({success: true, message: 'Criado com sucesso'});
         }catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -54,20 +43,22 @@ module.exports = {
     //metodo de atualização das informacões existente no bd
     async edit(req, res) {
         try{
-            const response = {...responseModel}
-            const {idProduto, nome, cod_barra, tamanho, 
-                descricao, imagem, data_vencimento, qtd_estoque,
+                const {nome, nome_novo, cod_barra, tamanho, 
+                descricao, imagem_link, imagem_blob, data_vencimento, qtd_estoque,
                 qtd_min, preco_custo, preco_venda, marca_id} = req.body;
-            const valor_lucro = preco_venda - preco_custo;
-            const porcentagem_lucro = (valor_lucro/preco_venda)*100;
+                const lucro = preco_venda - preco_custo;
+                const valor_lucro = lucro.toFixed(2)
+                const porcentagem = (valor_lucro/preco_venda)*100;
+                const porcentagem_lucro = porcentagem.toFixed(2)
 
-            const [id, affectedRows] = await connection.query(`
+            await connection.query(`
             UPDATE produto SET 
-                    nome ='${nome}',
+                    nome ='${nome_novo}',
                     cod_barra='${cod_barra}',
                     tamanho='${tamanho}',
                     descricao='${descricao}',
-                    imagem='${imagem}',
+                    imagem_link='${imagem_link}',
+                    imagem_blob='${imagem_blob}',
                     data_vencimento='${data_vencimento}',
                     qtd_estoque='${qtd_estoque}',
                     qtd_min='${qtd_min}',
@@ -77,14 +68,9 @@ module.exports = {
                     porcentagem_lucro='${porcentagem_lucro}',
                     updated_at=now(),
                     marca_id='${marca_id}'
-                    WHERE id='${idProduto}';
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
-
-            return res.json(response);
+                    WHERE nome='${nome}';
+            `);
+            return res.json({success: true, message: 'Alterado com sucesso'});
         }catch(error){
          res.status(400).json({ message: error.message });
         }
@@ -92,15 +78,11 @@ module.exports = {
 //metodo de exclusão de dados
     async delete(req, res) {
         try{
-            const response = {...responseModel}
-            const {idProduto} = req.body;
-            const [id, affectedRows] = await connection.query(`
-            DELETE FROM produto WHERE id='${idProduto}';
+            const {nome} = req.body;
+            await connection.query(`
+            DELETE FROM produto WHERE nome='${nome}';
             `)
-            if(affectedRows > 0) {
-                response.success = true     
-            }
-            return res.json(response);
+            return res.json({success: true, message: 'Deletado com sucesso'});
         }catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -109,7 +91,7 @@ module.exports = {
     //metodo que pega todos os dados existentes no bd
     async mostrar(req, res) {
         try {
-          const results = await connection.query('SELECT * FROM produto JOIN marca ON produto.marca_id = marca.marca_id');
+          const results = await connection.query('SELECT * FROM produto');
           res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
@@ -120,7 +102,7 @@ module.exports = {
       async buscarNome(req, res) {
         try {
             const {nome} = req.body;
-            const results = await connection.query(`SELECT * FROM produto JOIN marca ON produto.marca_id = marca.marca_id where nome='${nome}'`);
+            const results = await connection.query(`SELECT * FROM produto where nome='${nome}'`);
             res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });
@@ -129,7 +111,7 @@ module.exports = {
       async buscarCodigoBarras(req, res) {
         try {
             const {cod_barra} = req.body;
-            const results = await connection.query(`SELECT * FROM produto JOIN marca ON produto.marca_id = marca.marca_id where cod_barra='${cod_barra}'`);
+            const results = await connection.query(`SELECT * FROM produto where cod_barra='${cod_barra}'`);
             res.json(results[0]);
         } catch (error) {
           res.status(400).json({ message: error.message });

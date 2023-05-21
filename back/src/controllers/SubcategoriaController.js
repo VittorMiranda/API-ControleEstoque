@@ -3,69 +3,46 @@
 const connection = require('../database/connection')
 
 
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
 
 module.exports = {
+    
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const response = {...responseModel}
             const {subcategoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-                INSERT INTO subcategoria VALUES (
-                    DEFAULT,
-                    '${subcategoria}'               
-                );
+            await connection.query(`INSERT INTO subcategoria VALUES ('${subcategoria}');
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+         
+            return res.json({success: true, message: 'Criado com sucesso'});
         }catch (error) {
-            res.status(400).json({ message: error.message });
+            res.status(400).json({ success: false, message: error.message });
           }
     },
     //metodo de alteração de dados
     async edit(req, res) {
         try{
-            const response = {...responseModel}
-            const {idSubcategoria,subcategoria} = req.body;
+            const {subcategoria, nova_subcategoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            UPDATE subcategoria SET subcategoria='${subcategoria}'  
-            WHERE id='${idSubcategoria}';
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
+            await connection.query(`UPDATE subcategoria SET subcategoria='${nova_subcategoria}'  
+            WHERE subcategoria='${subcategoria}';`);
+        
 
-            return res.json(response);
+            return res.json({success: true, message: 'Alterado com sucesso'});
         }catch (error) {
-            res.status(400).json({ message: error.message });
+            res.status(400).json({ success: false, message: error.message });
         }
     }, 
     //metodo de ddeletar dados
     async delete(req, res) {
         try{
-            const response = {...responseModel}
-            const {idSubcategoria} = req.body;
+            const {subcategoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            DELETE FROM subcategoria WHERE id='${idSubcategoria}';
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            await connection.query(`DELETE FROM subcategoria WHERE subcategoria='${subcategoria}';`);
+           
+            return res.json({success: true, message: 'Excluido com sucesso'});
         }catch (error) {
-            res.status(400).json({ message: error.message });
+            res.status(400).json({ success: false, message: error.message });
           }
     },
 
@@ -75,7 +52,7 @@ module.exports = {
           const results = await connection.query('SELECT * FROM subcategoria');
           res.json(results[0]);
         } catch (error) {
-          res.status(400).json({ message: error.message });
+          res.status(400).json({ success: false, message: error.message });
         }
       }
 };

@@ -9,13 +9,9 @@ module.exports = {
      * Example:
      */
      await queryInterface.createTable('subcategoria', {
-      id:{ 
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement:true
-      },
-      subcategoria:{
+        subcategoria:{
         type: Sequelize.STRING(30),
+        primaryKey: true,
         allowNull: false
       }
      });

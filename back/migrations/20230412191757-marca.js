@@ -4,13 +4,9 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('marca', {
-      marca_id:{ 
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement:true
-      },
-      marca:{
+        marca:{
         type: Sequelize.STRING(30),
+        primaryKey: true,
         allowNull: false
       }
      });

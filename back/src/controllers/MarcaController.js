@@ -2,31 +2,15 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection')
 
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
-
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const response = {...responseModel}
             const {marca} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-                INSERT INTO marca VALUES (
-                    DEFAULT,
-                    '${marca}'               
-                );
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
+            await connection.query(`INSERT INTO marca VALUES ('${marca}');`);
 
-            return res.json(response);
+            return res.json({success: true, message: 'Criado com sucesso'});
         }catch(error){
             res.status(400).json({ message: error.message });
         }
@@ -34,18 +18,11 @@ module.exports = {
     //metodo de alteração de dados
     async edit(req, res) {
         try{
-            const response = {...responseModel}
-            const {idMarca, marca} = req.body;
+            const {marca, nova_marca} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            UPDATE marca SET marca='${marca}'  
-            WHERE marca_id='${idMarca}';
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
+            await connection.query(`UPDATE marca SET marca='${nova_marca}' WHERE marca='${marca}';`);
 
-            return res.json(response);
+            return res.json({success: true, message: 'Alterado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
           }
@@ -53,17 +30,12 @@ module.exports = {
     //metodo de ddeletar dados
     async delete(req, res) {
         try{
-            const response = {...responseModel}
-            const {idMarca} = req.body;
+            const {marca} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            DELETE FROM marca WHERE marca_id='${idMarca}';
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
+            await connection.query(`DELETE FROM marca WHERE marca='${marca}';`);
 
-            return res.json(response);
+            return res.json({success: true, message: 'Criado com sucesso'});
+            
         }catch (error) {
         res.status(400).json({ message: error.message });
       }

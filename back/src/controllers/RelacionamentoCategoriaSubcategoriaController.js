@@ -2,52 +2,34 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection')
 
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
-
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const response = {...responseModel}
-            const {idCategoria, idSubcategoria} = req.body;
+           const {categoria, subcategoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
+            await connection.query(`
                 INSERT INTO categoria_subcategoria VALUES (
-                    DEFAULT,
-                    '${idCategoria}',
-                    '${idSubcategoria}'              
+                    '${categoria}',
+                    '${subcategoria}'              
                 );
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            return res.json({success: true, message: 'Criado com sucesso'});
         }catch (error) {
-            res.status(400).json({ message: error.message });
+            res.status(400).json({success: false, message: error.message });
           }
     },
     //metodo de alteração de dados
     async edit(req, res) {
         try{
-            const response = {...responseModel}
-            const {idCategoria,idSubcategoria, idCategoriaSubcategoria} = req.body;
+            const {categoria, nova_categoria, subcategoria, nova_subcategoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            UPDATE categoria_subcategoria SET categoria_id='${idCategoria}',
-            subcategoria_id='${idSubcategoria}'  
-            WHERE id='${idCategoriaSubcategoria}';
+            await connection.query(`
+            UPDATE categoria_subcategoria SET categoria_id='${nova_categoria}',
+            subcategoria_id='${nova_subcategoria}'  
+            WHERE categoria_id='${categoria}' and subcategoria_id='${subcategoria}';
             `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            return res.json({success: true, message: 'Alterado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -55,41 +37,32 @@ module.exports = {
     //metodo de ddeletar dados
     async delete(req, res) {
         try{
-            const response = {...responseModel}
-            const {idCategoriaSubcategoria} = req.body;
+            const {categoria,subcategoria} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-            DELETE FROM categoria_subcategoria WHERE id='${idCategoriaSubcategoria}';
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            await connection.query(`DELETE FROM categoria_subcategoria WHERE categoria_id='${categoria}' and
+             subcategoria_id='${subcategoria}';`);
+            return res.json({success: true, message: 'Excluido com sucesso'});
         }catch (error) {
-            res.status(400).json({ message: error.message });
+            res.status(400).json({ success: false, message: error.message });
           }
     },
 
     //metodo que pega todos os dados existentes no bd
     async mostrar(req, res) {
         try {
-          const results = await connection.query(`SELECT * FROM categoria_subcategoria JOIN categoria ON
-           categoria_subcategoria.categoria_id = categoria.id JOIN subcategoria ON categoria_subcategoria.subcategoria_id = subcategoria.id`);
+          const results = await connection.query(`SELECT * FROM categoria_subcategoria`);
           res.json(results[0]);
         } catch (error) {
-          res.status(400).json({ message: error.message });
+          res.status(400).json({ success: false, message: error.message });
         }
     },
     async filtro(req, res) {
         try {
-          const {idCategoria, idSubcategoria} = req.body;
-          const results = await connection.query(`SELECT * FROM categoria_subcategoria JOIN categoria 
-          ON categoria_subcategoria.categoria_id = categoria.id JOIN subcategoria ON categoria_subcategoria.subcategoria_id = subcategoria.id 
-          where categoria_id=${idCategoria} AND subcategoria_id=${idSubcategoria}`);
+          const {categoria, subcategoria} = req.body;
+          const results = await connection.query(`SELECT * FROM categoria_subcategoria where categoria_id=${categoria} AND subcategoria_id=${subcategoria}`);
           res.json(results[0]);
         } catch (error) {
-          res.status(400).json({ message: error.message });
+          res.status(400).json({ success: false, message: error.message });
         }
     }
 };
