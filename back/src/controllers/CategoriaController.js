@@ -23,10 +23,9 @@ module.exports = {
         try{
             const {categoria, nova_categoria} = req.body;
 
-            await connection.query(`
-            UPDATE categoria SET categoria='${nova_categoria}'  
-            WHERE categoria='${categoria}';
-            `);
+            await connection.query('UPDATE categoria SET categoria = ? WHERE categoria = ?', {
+              replacements: [nova_categoria, categoria],
+              type: connection.QueryTypes.UPDATE,});
             
             return res.json({success: true, message: 'Alterado com sucesso'});
         }catch (error) {
@@ -38,7 +37,9 @@ module.exports = {
         try{
             const {categoria} = req.body;
 
-            await connection.query(`DELETE FROM categoria WHERE categoria='${categoria}';`);
+            await connection.query(`DELETE FROM categoria WHERE categoria=?;`,{
+              replacements: [categoria],
+              type: connection.QueryTypes.DELETE,});
             
 
             return res.json({success: true, message: 'Excluido com sucesso'});

@@ -8,7 +8,9 @@ module.exports = {
         try{
             const {marca} = req.body;
 
-            await connection.query(`INSERT INTO marca VALUES ('${marca}');`);
+            await connection.query('INSERT INTO marca (marca) VALUES (?)', {
+              replacements: [marca],
+              type: connection.QueryTypes.INSERT,});
 
             return res.json({success: true, message: 'Criado com sucesso'});
         }catch(error){
@@ -20,7 +22,9 @@ module.exports = {
         try{
             const {marca, nova_marca} = req.body;
 
-            await connection.query(`UPDATE marca SET marca='${nova_marca}' WHERE marca='${marca}';`);
+            await connection.query(`UPDATE marca SET marca=? WHERE marca=?;`, {
+              replacements: [nova_marca, marca],
+              type: connection.QueryTypes.UPDATE,});
 
             return res.json({success: true, message: 'Alterado com sucesso'});
         }catch (error) {
@@ -32,7 +36,9 @@ module.exports = {
         try{
             const {marca} = req.body;
 
-            await connection.query(`DELETE FROM marca WHERE marca='${marca}';`);
+            await connection.query(`DELETE FROM marca WHERE marca=?;`, {
+              replacements: [marca],
+              type: connection.QueryTypes.DELETE,});
 
             return res.json({success: true, message: 'Criado com sucesso'});
             

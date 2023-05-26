@@ -20,8 +20,8 @@ router.use(function(req, res, next) {
 })
 //rotas da tabela users
 router.post('/User/create', UserCeontroller.create);
-router.post('/User/login', UserCeontroller.login);
-router.put('/User/editsenha', UserCeontroller.edit);
+router.get('/User/login', UserCeontroller.login);
+router.put('/User/edit', UserCeontroller.edit);
 
 //rotas produto
 router.post('/Produto/create', ProdutoController.create);
@@ -30,6 +30,7 @@ router.delete('/Produto/delete', ProdutoController.delete);
 router.get('/Produto/mostrar', ProdutoController.mostrar);
 router.get('/Produto/buscar/nome', ProdutoController.buscarNome);
 router.get('/Produto/buscar/codigo_barra', ProdutoController.buscarCodigoBarras);
+router.get('/Produto/buscar/marca', ProdutoController.buscarMarca);
 
 //rotas categoria
 router.post('/Categoria/create', CategoriaController.create);

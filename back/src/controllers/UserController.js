@@ -2,36 +2,17 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection')
 
-
-const responseModel = { 
-    success: false, 
-    data: [],
-    error: []
-};
-
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const response = {...responseModel}
-            const { username, password, nome } = req.body;
+            const {email, username, password} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-                INSERT INTO users VALUES (
-                    DEFAULT,
-                    '${nome}',
-                    '${username}',
-                    '${password}',
-                    now(),
-                    now()               
-                );
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
-
-            return res.json(response);
+            await connection.query(`INSERT INTO users (email, username, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?);`,{
+                replacements: [email, username, password, new Date(), new Date()],
+                type: connection.QueryTypes.INSERT,});
+            
+                return res.json({success: true, message: 'Criado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -40,22 +21,13 @@ module.exports = {
     //metodo de verificação se usuario existe
     async login(req, res) {
         try{
-            const response = {...responseModel}
-            const { username, password } = req.body;
+            const { email, password } = req.body;
 
-            const [, data] = await connection.query(`
-                SELECT nome_usuario FROM users
-                WHERE username='${username}' AND password='${password}'
-                ORDER BY id DESC LIMIT 1
-            `)
+            const results = await connection.query(`SELECT username FROM users WHERE email=? AND password=?;`,{
+            replacements: [email, password],
+            type: connection.QueryTypes.SELECT,});
 
-            if(data.length > 0) {
-                response.success = true
-            console.log('exist')
-            }
-
-
-            return res.json(response);
+            res.json(results[0]);          
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
@@ -63,21 +35,16 @@ module.exports = {
 //metodo de atualização das informacões existente no bd
     async edit(req, res) {
         try{
-            const response = {...responseModel}
-            const {idUsers,password, nome} = req.body;
+            const {email, username, password} = req.body;
 
             const [id, affectedRows] = await connection.query(`
-            UPDATE users SET nome_usuario='${nome}', password='${password}'  
-            WHERE id='${idUsers}';
-            `);
-            if(affectedRows > 0) {
-                response.success = true    
-            }
-
-            return res.json(response);
+            UPDATE users SET username=?, password=?, updated_at=? WHERE email=?;`, {
+                replacements: [username, password, new Date(), email],
+                type: connection.QueryTypes.UPDATE,});
+           
+                return res.json({success: true, message: 'Alterado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
-
     },
 };

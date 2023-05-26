@@ -2,8 +2,6 @@
 //aqui se faz todos os comando SQL relacionadas a tabela users
 const connection = require('../database/connection')
 
-
-
 module.exports = {
     
     //metodo de incerção de dados
@@ -11,8 +9,9 @@ module.exports = {
         try{
             const {subcategoria} = req.body;
 
-            await connection.query(`INSERT INTO subcategoria VALUES ('${subcategoria}');
-            `);
+            await connection.query('INSERT INTO subcategoria (subcategoria) VALUES (?)', {
+                replacements: [subcategoria],
+                type: connection.QueryTypes.INSERT,});
          
             return res.json({success: true, message: 'Criado com sucesso'});
         }catch (error) {
@@ -24,8 +23,9 @@ module.exports = {
         try{
             const {subcategoria, nova_subcategoria} = req.body;
 
-            await connection.query(`UPDATE subcategoria SET subcategoria='${nova_subcategoria}'  
-            WHERE subcategoria='${subcategoria}';`);
+            await connection.query('UPDATE subcategoria SET subcategoria = ? WHERE subcategoria = ?', {
+                replacements: [nova_subcategoria, subcategoria],
+                type: connection.QueryTypes.UPDATE,});
         
 
             return res.json({success: true, message: 'Alterado com sucesso'});
@@ -38,7 +38,9 @@ module.exports = {
         try{
             const {subcategoria} = req.body;
 
-            await connection.query(`DELETE FROM subcategoria WHERE subcategoria='${subcategoria}';`);
+            await connection.query(`DELETE FROM subcategoria WHERE subcategoria=?;`, {
+                replacements: [subcategoria],
+                type: connection.QueryTypes.DELETE,});
            
             return res.json({success: true, message: 'Excluido com sucesso'});
         }catch (error) {
