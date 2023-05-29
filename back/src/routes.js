@@ -11,7 +11,7 @@ const ClienteFornecedorController = require('./controllers/ClienteFornecedorCont
 const RelacionamentoCategoriaSubcategoriaController = require('./controllers/RelacionamentoCategoriaSubcategoriaController');
 const RelacionamentoCategoriaProdutoController = require('./controllers/RelacionamentoCategoriaProdutoController');
 const RelacionamentoSubcategoriaProdutoController = require('./controllers/RelacionamentoSubcategoriaProdutoController');
-const MarcaController = require('./controllers/MarcaController')
+const MarcaController = require('./controllers/MarcaController');
 //permite que a api fique publica para ser acessada pelas aplicações
 router.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -31,6 +31,10 @@ router.get('/Produto/mostrar', ProdutoController.mostrar);
 router.get('/Produto/buscar/nome', ProdutoController.buscarNome);
 router.get('/Produto/buscar/codigo_barra', ProdutoController.buscarCodigoBarras);
 router.get('/Produto/buscar/marca', ProdutoController.buscarMarca);
+router.get('/Produto/buscar/ProximoVencimento', ProdutoController.buscarProxVencimentos);
+router.get('/Produto/buscar/vencidos', ProdutoController.buscarVencidos);
+router.get('/Produto/quantidade', ProdutoController.quantidadeProdutos);
+router.get('/Produto/quantidade/ProximoVencimento', ProdutoController.quantidadeProxVencimento);
 
 //rotas categoria
 router.post('/Categoria/create', CategoriaController.create);
@@ -43,6 +47,7 @@ router.post('/Marca/create', MarcaController.create);
 router.put('/Marca/edit', MarcaController.edit);
 router.delete('/Marca/delete', MarcaController.delete);
 router.get('/Marca/mostrar', MarcaController.mostrar);
+router.get('/Marca/quantidade', MarcaController.quantidadeMarca);
 
 //rotas subcategoria
 router.post('/Subcategoria/create', SubcategoriaController.create);
@@ -77,5 +82,6 @@ router.put('/RelacionamentoSubcategoriaProduto/edit', RelacionamentoSubcategoria
 router.delete('/RelacionamentoSubcategoriaProduto/delete', RelacionamentoSubcategoriaProdutoController.delete);
 router.get('/RelacionamentoSubcategoriaProduto/mostrar', RelacionamentoSubcategoriaProdutoController.mostrar);
 router.get('/RelacionamentoSubcategoriaProduto/filtro', RelacionamentoSubcategoriaProdutoController.filtroProdutoSubcategoria);
+
 
 module.exports = router;

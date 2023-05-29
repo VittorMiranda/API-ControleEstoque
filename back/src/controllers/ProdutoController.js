@@ -83,6 +83,7 @@ module.exports = {
           res.status(400).json({ message: error.message });
         }
       },
+      //Método que traz os produtos pelo codigo de barras selecionado
       async buscarCodigoBarras(req, res) {
         try {
             const {cod_barra} = req.body;
@@ -93,6 +94,8 @@ module.exports = {
           res.status(400).json({ message: error.message });
         }
       },
+
+      //Método que traz os produtos pela marca selecionada
       async buscarMarca(req, res) {
         try {
             const {marca_id} = req.body;
@@ -101,6 +104,46 @@ module.exports = {
         } catch (error) {
           res.status(400).json({ message: error.message });
         }
+      },
+
+      //Método que traz os produtos proximo ao vencimento
+      async buscarProxVencimentos(req, res) {
+        try {
+            const results = await connection.query('SELECT * FROM produto WHERE data_vencimento >= DATE_ADD(CURRENT_DATE, INTERVAL 3 MONTH);');
+            res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+      },
+
+      //Método que traz os produtos vencidos
+      async buscarVencidos(req, res) {
+        try {
+            const results = await connection.query('SELECT * FROM produto WHERE data_vencimento <= DATE_ADD(CURRENT_DATE, INTERVAL 3 MONTH);');
+            res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+      },
+
+      //Método que conta a quantidade de produtos cadastrados
+      async quantidadeProdutos(req, res) {
+        try {
+            const results = await connection.query('SELECT COUNT(*) AS quantidade_produto FROM produto');
+            res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+      },
+
+      //método que conta a quantidade de produtos proximo ao vencimento
+        async quantidadeProxVencimento(req, res) {
+          try {
+              const results = await connection.query('SELECT COUNT(*) AS proximo_vencimento FROM produto WHERE data_vencimento >= DATE_ADD(CURRENT_DATE, INTERVAL 3 MONTH);');
+              res.json(results[0]);
+          } catch (error) {
+            res.status(400).json({ message: error.message });
+          }
       }
 
 };

@@ -55,6 +55,16 @@ module.exports = {
         } catch (error) {
           res.status(400).json({ message: error.message });
         }
-      }
+      },
+
+      //método que conta a quantidade de marcas cadastradas
+      async quantidadeMarca(req, res) {
+        try {
+            const results = await connection.query('SELECT COUNT(*) AS quantidade_marca FROM marca;');
+            res.json(results[0]);
+        } catch (error) {
+          res.status(400).json({ message: error.message });
+        }
+    }
       
 };
