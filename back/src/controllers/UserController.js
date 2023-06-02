@@ -23,11 +23,11 @@ module.exports = {
         try{
             const { email, password } = req.body;
 
-            const results = await connection.query(`SELECT username FROM users WHERE email=? AND password=?;`,{
+            const results = await connection.query(`SELECT username FROM users WHERE email=? AND password=? ORDER BY email DESC LIMIT 1;`,{
             replacements: [email, password],
             type: connection.QueryTypes.SELECT,});
 
-            res.json(results[0]);          
+            res.json({success: true, message: 'Usuario encontrado'});          
         }catch (error) {
             res.status(400).json({ message: error.message });
         }

@@ -40,7 +40,7 @@ module.exports = {
               replacements: [marca],
               type: connection.QueryTypes.DELETE,});
 
-            return res.json({success: true, message: 'Criado com sucesso'});
+            return res.json({success: true, message: 'Excluido com sucesso'});
             
         }catch (error) {
         res.status(400).json({ message: error.message });
