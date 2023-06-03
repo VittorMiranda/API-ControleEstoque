@@ -20,7 +20,7 @@ router.use(function(req, res, next) {
 })
 //rotas da tabela users
 router.post('/User/create', UserCeontroller.create);
-router.get('/User/login', UserCeontroller.login);
+router.post('/User/login', UserCeontroller.login);
 router.put('/User/edit', UserCeontroller.edit);
 
 //rotas produto
