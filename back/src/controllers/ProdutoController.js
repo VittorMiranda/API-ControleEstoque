@@ -18,7 +18,7 @@ module.exports = {
                 await connection.query(`INSERT INTO produto (nome, cod_barra, tamanho, descricao, imagem_link, 
                     data_vencimento, qtd_estoque, qtd_min, preco_custo, preco_venda, valor_lucro, 
                     porcentagem_lucro, created_at, updated_at, marca_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, {
-                    replacements: [nome, cod_barra, tamanho, descricao, imagem_link, imagem_blob, data_vencimento, qtd_estoque, qtd_min,
+                    replacements: [nome, cod_barra, tamanho, descricao, imagem_link, data_vencimento, qtd_estoque, qtd_min,
                     preco_custo, preco_venda, valor_lucro, porcentagem_lucro, new Date(), new Date(), marca_id],
                     type: connection.QueryTypes.INSERT,});
 
