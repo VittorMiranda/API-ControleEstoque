@@ -26,9 +26,6 @@ module.exports = {
       imagem_link:{
         type: Sequelize.STRING(300)
       },
-      imagem_blob:{
-        type: Sequelize.BLOB
-      },
       data_vencimento:{
         type: Sequelize.DATE
       },

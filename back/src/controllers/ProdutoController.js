@@ -6,7 +6,7 @@ module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
         try{
-            const { nome, cod_barra, tamanho, descricao, imagem_link, imagem_blob, data_vencimento, qtd_estoque, qtd_min, 
+            const { nome, cod_barra, tamanho, descricao, imagem_link, data_vencimento, qtd_estoque, qtd_min, 
                 preco_custo, preco_venda, marca_id} = req.body;
                 //calculo do lucro
                 const lucro = preco_venda - preco_custo;
@@ -16,8 +16,8 @@ module.exports = {
                 const porcentagem_lucro = porcentagem.toFixed(2)
                 
                 await connection.query(`INSERT INTO produto (nome, cod_barra, tamanho, descricao, imagem_link, 
-                    imagem_blob, data_vencimento, qtd_estoque, qtd_min, preco_custo, preco_venda, valor_lucro, 
-                    porcentagem_lucro, created_at, updated_at, marca_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, {
+                    data_vencimento, qtd_estoque, qtd_min, preco_custo, preco_venda, valor_lucro, 
+                    porcentagem_lucro, created_at, updated_at, marca_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, {
                     replacements: [nome, cod_barra, tamanho, descricao, imagem_link, imagem_blob, data_vencimento, qtd_estoque, qtd_min,
                     preco_custo, preco_venda, valor_lucro, porcentagem_lucro, new Date(), new Date(), marca_id],
                     type: connection.QueryTypes.INSERT,});
@@ -31,17 +31,17 @@ module.exports = {
     //metodo de atualização das informacões existente no bd
     async edit(req, res) {
         try{
-                const {nome, nome_novo, cod_barra, tamanho, descricao, imagem_link, imagem_blob, data_vencimento, qtd_estoque,
+                const {nome, nome_novo, cod_barra, tamanho, descricao, imagem_link, data_vencimento, qtd_estoque,
                 qtd_min, preco_custo, preco_venda, marca_id} = req.body;
                 const lucro = preco_venda - preco_custo;
                 const valor_lucro = lucro.toFixed(2)
                 const porcentagem = (valor_lucro/preco_venda)*100;
                 const porcentagem_lucro = porcentagem.toFixed(2)
 
-            await connection.query(`UPDATE produto SET nome =?, cod_barra=?, tamanho=?, descricao=?, imagem_link=?, imagem_blob=?,
+            await connection.query(`UPDATE produto SET nome =?, cod_barra=?, tamanho=?, descricao=?, imagem_link=?, 
                     data_vencimento=?, qtd_estoque=?, qtd_min=?, preco_custo=?, preco_venda=?, valor_lucro=?, porcentagem_lucro=?,
                     updated_at=?, marca_id=? WHERE nome=?;`, {
-                        replacements: [nome_novo, cod_barra, tamanho, descricao, imagem_link, imagem_blob, data_vencimento, qtd_estoque, qtd_min,
+                        replacements: [nome_novo, cod_barra, tamanho, descricao, imagem_link, data_vencimento, qtd_estoque, qtd_min,
                         preco_custo, preco_venda, valor_lucro, porcentagem_lucro, new Date(), marca_id, nome],
                         type: connection.QueryTypes.UPDATE,});
 
