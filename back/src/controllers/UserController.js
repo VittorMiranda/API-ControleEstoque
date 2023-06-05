@@ -17,8 +17,8 @@ module.exports = {
             const [id, affectedRows] = await connection.query(`
                 INSERT INTO users VALUES (
                     DEFAULT,
-                    '${username}',
                     '${email}',
+                    '${username}',
                     '${password}',
                     now(),
                     now()               
