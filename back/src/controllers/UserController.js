@@ -14,7 +14,7 @@ module.exports = {
         try{
             const {email, username, password} = req.body;
 
-            await connection.query(INSERT INTO users (email, username, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?);,{
+            await connection.query('INSERT INTO users (email, username, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?);',{
                 replacements: [email, username, password, new Date(), new Date()],
                 type: connection.QueryTypes.INSERT,});
 
