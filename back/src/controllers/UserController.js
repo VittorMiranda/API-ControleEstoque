@@ -10,26 +10,15 @@ const responseModel = {
 module.exports = {
     //metodo de incerção de dados
     async create(req, res) {
+          
         try{
-            const response = {...responseModel}
             const {email, username, password} = req.body;
 
-            const [id, affectedRows] = await connection.query(`
-                INSERT INTO users VALUES (
-                    DEFAULT,
-                    '${email}',
-                    '${username}',
-                    '${password}',
-                    now(),
-                    now()               
-                );
-            `)
-            if(affectedRows > 0) {
-                response.success = true
-                
-            }
+            await connection.query(INSERT INTO users (email, username, password, created_at, updated_at) VALUES (?, ?, ?, ?, ?);,{
+                replacements: [email, username, password, new Date(), new Date()],
+                type: connection.QueryTypes.INSERT,});
 
-            return res.json(response);
+                return res.json({success: true, message: 'Criado com sucesso'});
         }catch (error) {
             res.status(400).json({ message: error.message });
         }
